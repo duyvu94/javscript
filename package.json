@@ -1,0 +1,22 @@
+{
+  "name": "Javascript",
+  "version": "1.0.0",
+  "description": "Home assignment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sppro94/javscript.git"
+  },
+  "author": "Duy Vu",
+  "license": "Beerware",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "colors": "^1.1.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.1",
+    "express-session": "^1.13.0"
+  }
+}
