@@ -1,26 +1,23 @@
 var authMW = require('../middleware/generic/auth');
 var renderMW = require('../middleware/generic/render');
 
-var getPictureListMW = require('../middleware/picture/getPictureList');
-var getPictureMW = require('../middleware/picture/getPicture');
-var getEmployeeListMW = require('../middleware/employees/getEmployeeList');
-var updatePictureMW = require('../middleware/picture/updatePicture');
-var deletePictureMW = require('../middleware/picture/deletePicture');
+var getPictureListMW = require('../middleware/pictures/getPictureList');
+var getPictureMW = require('../middleware/pictures/getPicture');
+var updatePictureMW = require('../middleware/pictures/updatePicture');
+var deletePictureMW = require('../middleware/pictures/deletePicture');
 var pictureModel = {};
-var employeeModel = {};
 
 module.exports = function (app) {
 
     var objectRepository = {
         pictureModel: pictureModel,
-        employeeModel: employeeModel,
     };
 
     /**
      * List all picture
      */
 
-    app.use('/pictures',
+    app.use('/picture',
         authMW(objectRepository),
         getPictureListMW(objectRepository),
         renderMW(objectRepository, 'picture')

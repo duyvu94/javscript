@@ -20,6 +20,22 @@ module.exports = function (app) {
     );
 
     /**
+     * Bidding page
+     */
+    app.get('/biddingSite',
+        authMW(objectRepository),
+        renderMW(objectRepository, 'biddingSite')
+    );
+
+    /**
+     * private page
+     */
+    app.get('/privateSite',
+        authMW(objectRepository),
+        renderMW(objectRepository, 'privateSite')
+    );
+
+    /**
      * Login page
      */
     app.use('/login',

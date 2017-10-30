@@ -2,7 +2,7 @@ var requireOption = require('../common').requireOption;
 
 /**
  * Get the picture for the picture param
- *  - if there is no such picture, redirect to /pictures
+ *  - if there is no such picture, redirect to /picture
  *  - if there is one, put it on res.tpl.picture
  */
 

@@ -1,40 +1,62 @@
 var express = require('express');
 var app = express();
+
+var session = require('express-session');
 var bodyParser = require('body-parser');
 
-app.use(express.static('static'));
+app.use(express.static('public'));
 
-app.use(bodyParser.urlencoded());
+app.set('view engine', 'ejs');
+
+/**
+ * Session above all
+ */
+app.use(session({
+    secret: 'keyboard cat',
+    cookie: {
+        maxAge: 60000
+    },
+    resave: true,
+    saveUninitialized: false
+}));
+
+/**
+ * Parse parameters in POST
+ */
+// for parsing application/json
 app.use(bodyParser.json());
+// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
-app.get('/', function (req, res, next) { //redirect to the main page
-    res.redirect("index.html");
+/**
+ * Let's creat the .tpl and .error on the res object
+ */
+app.use(function (req, res, next) {
+    res.tpl = {};
+    res.tpl.error = [];
+
+    return next();
 });
 
-app.get('/user/:userid', function (req, res, next) { //get information of the user from their id
-    res.json({
-        id: req.params.userid,
-        name: "Sample Name",
-        email: "Sample Email"
-    });
-});
+/**
+ * Include all the routes
+ */
+require('./routes/userlist')(app);
+require('./routes/picturelist')(app);
+require('./routes/outside')(app);
 
-app.get('/picture/:pictureid', function (req, res, next) { // get information of the picture from their id
-    res.json({
-        id: req.params.pictureid,
-        name: "Sample Name",
-        information: "Sample Information"
-    });
-});
+/**
+ * Standard error handler
+ */
+app.use(function (err, req, res, next) {
+    res.status(500).send('Problem happens!');
 
-app.post('/login', function(req, res, next){ // send login information
-    if (typeof req.body.inputEmail !== 'undefined'){
-        res.redirect("biddingSite.html");
-    }
-    next();
+    //Flush out the stack to the console
+    console.error(err.stack);
 });
-
 
 var server = app.listen(3000, function () {
-    console.log("1.1.0");
+    console.log('Hello :3000');
 });
