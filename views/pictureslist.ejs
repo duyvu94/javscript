@@ -1,0 +1,47 @@
+<%- include('header') %>
+<!-- start: content -->
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h2>Pictures list</h2>
+        </div>
+        <%- include('errorbox') %>
+        <div class="col-md-push-3 col-md-6 col-xs-12">
+
+            <% pictures.forEach(function(picture){ %>
+            <div class="picturelist-item row">
+                <table style="width:100%">
+                    <tr>
+                        <td width="200px">
+                            <img width="180px" src="/uploads/<%= picture.id %>" alt="No sample image">
+
+                        </td>
+                        <td>
+                            <p><b>Name:  </b><%= picture.name %></p>
+                            <p><b>Description:  </b><%= picture.description %></p>
+                            <p><b>Deadline:  </b><%= picture.deadline %></p>
+                            <p><b>Current price:  </b><%= picture.price %> EUR</p>
+                            <p><b>Person paying highest price:  </b><%= picture.owner_name %></p>
+                            <a href="/picture/<%= picture.id %>/editinfo" class="btn btn-success">Edit picture infomation</a>
+                            <a href="/picture/<%= picture.id %>/editimage" class="btn btn-info">Change image</a>
+                            <a href="/picture/<%= picture.id %>/bid" class="btn btn-warning" onclick="popup()">BID</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <% }); %>
+
+            <div class="text-right ptop">
+                <a href="/picture/new" class="btn btn-primary">New picture</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function popup() {
+        confirm("Are you sure to BID the price by 1000 EUR?");
+    }
+</script>
+<!-- end: content -->
+<%- include('footer') %>

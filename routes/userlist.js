@@ -1,11 +1,8 @@
 var authMW = require('../middleware/generic/auth');
 var renderMW = require('../middleware/generic/render');
-
-var getUserListMW = require('../middleware/users/getUserList');
-var updateUserMW = require('../middleware/users/updateUser');
-var getUserMW = require('../middleware/users/getUser');
-var deleteUserMW = require('../middleware/users/getUser');
-var userModel = {};
+var updateUserMW = require('../middleware/user/updateUser');
+var getUserMW = require('../middleware/user/getUser');
+var userModel = require('../models/user');
 
 module.exports = function (app) {
 
@@ -14,49 +11,26 @@ module.exports = function (app) {
     };
 
     /**
-     * List all user
+     * Show current user's information
      */
 
-    app.use('/users',
+    app.use('/user',
         authMW(objectRepository),
-        getUserListMW(objectRepository),
-        renderMW(objectRepository, 'users')
+        getUserMW(objectRepository),
+        renderMW(objectRepository, 'personaldata')
     );
 
     /**
-     * Add new user
+     * Edit current user's information
      */
 
-    app.use('/users/new',
-        authMW(objectRepository),
-        updateUserMW(objectRepository),
-        renderMW(objectRepository, 'newuser')
-    );
-
-    /**
-     * Edit the user details
-     */
-
-    app.use('/users/:userid/edit',
+    app.use('/edituser',
         authMW(objectRepository),
         getUserMW(objectRepository),
         updateUserMW(objectRepository),
-        renderMW(objectRepository, 'newuser')
+        renderMW(objectRepository, 'edituser')
     );
 
-    /**
-     * Delete user
-     * - then redirect to /users
-     */
-
-    app.use('/users/:userid/delete',
-        authMW(objectRepository),
-        getUserMW(objectRepository),
-        deleteUserMW(objectRepository),
-        function (req, res, next) {
-            return res.redirect('/users');
-        }
-    );
 
 };
 

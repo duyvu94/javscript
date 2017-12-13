@@ -1,0 +1,46 @@
+<%- include('header') %>
+<!-- start: content -->
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h2><%= (typeof picture !== 'undefined') ? 'Edit picture' : 'New picture' %></h2>
+        </div>
+        <div class="col-md-push-3 col-md-6 col-xs-12">
+            <%- include('errorbox') %>
+            <form method="post">
+                <div class="form-group">
+                    <label for="name">Picture name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Picture name" name="name"
+                           value="<%= (typeof picture !== 'undefined') ? picture.name : '' %>">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description"
+                              name="description"><%= (typeof picture !== 'undefined') ? picture.description : '' %></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="deadline">Deadline</label>
+                    <input class="form-control" id="deadline" placeholder="Picture deadline" name="deadline" type="date"
+                           value="<%= (typeof picture !== 'undefined') ? picture.date : '' %>">
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" class="form-control" id="price" placeholder="Picture price" name="price"
+                           value="<%= (typeof picture !== 'undefined') ? picture.price : '' %>">
+                </div>
+                <% if (typeof picture !== 'undefined'){ %>
+                <input type="submit" class="btn btn-primary" name="submit" value="Save picture"/>
+                <input type="submit" class="btn btn-danger" name="submit" value="Delete picture"/>
+                <% }else{ %>
+                <input type="submit" class="btn btn-primary" name ="submit" value="New picture"/>
+                <% } %>
+                <a href="/pictures" class="btn btn-default">Cancel</a>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- end: content -->
+<%- include('footer') %>

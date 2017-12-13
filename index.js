@@ -1,16 +1,15 @@
 var express = require('express');
-var app = express();
-
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var multer = require('multer');
+var path = require('path');
+
+var app = express();
 
 app.use(express.static('public'));
 
 app.set('view engine', 'ejs');
 
-/**
- * Session above all
- */
 app.use(session({
     secret: 'keyboard cat',
     cookie: {
@@ -20,9 +19,21 @@ app.use(session({
     saveUninitialized: false
 }));
 
-/**
- * Parse parameters in POST
- */
+// Set The Storage Engine
+const storage = multer.diskStorage({
+    destination: './public/uploads/',
+    filename: function(req, file, cb){
+        var url = req.baseUrl.split("/");
+        cb(null, url[2] );
+
+    }
+});
+
+var upload = multer({
+    storage: storage
+
+}).single('imgUploader');
+
 // for parsing application/json
 app.use(bodyParser.json());
 // for parsing application/x-www-form-urlencoded
@@ -30,9 +41,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-/**
- * Let's creat the .tpl and .error on the res object
- */
 app.use(function (req, res, next) {
     res.tpl = {};
     res.tpl.error = [];
@@ -40,16 +48,10 @@ app.use(function (req, res, next) {
     return next();
 });
 
-/**
- * Include all the routes
- */
 require('./routes/userlist')(app);
-require('./routes/picturelist')(app);
+require('./routes/picturelist')(app, upload, path);
 require('./routes/outside')(app);
 
-/**
- * Standard error handler
- */
 app.use(function (err, req, res, next) {
     res.status(500).send('Problem happens!');
 

@@ -1,0 +1,23 @@
+<%- include('header') %>
+<!-- start: content -->
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h2>Personal information</h2>
+        </div>
+        <%- include('errorbox') %>
+        <div class="col-md-push-3 col-md-6 col-xs-12">
+            <p><b>Name:  </b><%= user.name %></p>
+            <p><b>Email:  </b><%= user.email %></p>
+            <a href="/edituser" class="btn btn-success">Edit information</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function popup() {
+        confirm("Are you sure to BID the price by 1000 EUR?");
+    }
+</script>
+<!-- end: content -->
+<%- include('footer') %>

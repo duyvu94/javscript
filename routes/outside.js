@@ -1,15 +1,18 @@
 var mainRedirectMW = require('../middleware/generic/mainRedirect');
 var inverseAuthMW = require('../middleware/generic/inverseAuth');
-var checkUserLoginMW = require('../middleware/generic/checkUserLogin');
+var checkUserLoginMW = require('../middleware/user/checkUserLogin');
 var renderMW = require('../middleware/generic/render');
 var authMW = require('../middleware/generic/auth');
 var logoutMW = require('../middleware/generic/logout');
-var userModel = {};
+var getPictureListMW = require('../middleware/picture/getPictureList');
+var userModel = require('../models/user');
+var pictureModel = require('../models/picture');
 
 module.exports = function (app) {
 
     var objectRepository = {
-        userModel: userModel
+        userModel: userModel,
+        pictureModel: pictureModel
     };
 
     /**
@@ -22,21 +25,14 @@ module.exports = function (app) {
     /**
      * Bidding page
      */
-    app.get('/biddingSite',
+    app.get('/main',
         authMW(objectRepository),
-        renderMW(objectRepository, 'biddingSite')
+        getPictureListMW(objectRepository),
+        renderMW(objectRepository, 'main')
     );
 
     /**
-     * private page
-     */
-    app.get('/privateSite',
-        authMW(objectRepository),
-        renderMW(objectRepository, 'privateSite')
-    );
-
-    /**
-     * Login page
+     * Login and Registration page
      */
     app.use('/login',
         inverseAuthMW(objectRepository),
